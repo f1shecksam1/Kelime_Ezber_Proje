@@ -58,6 +58,7 @@ public class MainMenuPanelManager : MonoBehaviour
             GameManager.Instance.randomWordIDs = GameManager.Instance.userDataOperations.SelectRandomWord(GameManager.Instance.wordDataOperations.GetWordDataList(), GameManager.Instance.activeUser, GameManager.Instance.randomQuestionCount);
             GameManager.Instance.alreadyKnowedWordIDsList = GameManager.Instance.userDataOperations.SelectAlreadyKnowedWordID(GameManager.Instance.wordDataOperations.GetWordDataList(), GameManager.Instance.activeUser).ToArray();
             GameManager.Instance.activeUser.lastAppOpenDate = DateTime.Now;
+            UserDataList.SaveUserDataList(GameManager.Instance.userDataOperations.GetUserDataList());
             mainMenuPage.SetActive(false);
             askQuestionPage.SetActive(true);
         }

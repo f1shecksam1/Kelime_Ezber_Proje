@@ -50,6 +50,7 @@ public class LoginPageManager : MonoBehaviour
         }
         else if (GameManager.Instance.adminUser.username == userNameIF.text && GameManager.Instance.adminUser.password == passwordIF.text)
         {
+            GameManager.Instance.activeUser = GameManager.Instance.adminUser;
             loginPage.SetActive(false);
             adminPage.SetActive(true);
             userNameIF.text = null;
