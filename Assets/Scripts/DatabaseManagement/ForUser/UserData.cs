@@ -20,6 +20,7 @@ public class UserData
     public Dictionary<int, DateTime> thirdKnowWord;
     public Dictionary<int, DateTime> fourthKnowWord;
     public Dictionary<int, DateTime> fifthKnowWord;
+    public Dictionary<int, DateTime> sixthKnowWord;
 
 
 
@@ -37,5 +38,6 @@ public class UserData
         thirdKnowWord = new Dictionary<int, DateTime>();
         fourthKnowWord = new Dictionary<int, DateTime>();
         fifthKnowWord= new Dictionary<int, DateTime>();
+        sixthKnowWord=new Dictionary<int, DateTime>();
     }
 }

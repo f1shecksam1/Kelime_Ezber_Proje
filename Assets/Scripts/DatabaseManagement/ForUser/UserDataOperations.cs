@@ -111,6 +111,10 @@ public class UserDataOperations
         {
             AddWordToKnowedWordDictionaryFifth(activeUser, knowedWordID, nowTime);
         }
+        else if (activeUser.fifthKnowWord.ContainsKey(knowedWordID))
+        {
+            AddWordToKnowedWordDictionarySixth(activeUser, knowedWordID, nowTime);
+        }
         else
         {
             AddWordToKnowedWordDictionaryFirst(activeUser, knowedWordID, nowTime);
@@ -151,6 +155,13 @@ public class UserDataOperations
         UserDataList.SaveUserDataList(userDataList);
     }
 
+    public void AddWordToKnowedWordDictionarySixth(UserData activeUser, int knowedWordID, DateTime nowTime)
+    {
+        activeUser.sixthKnowWord.Add(knowedWordID, nowTime);
+        activeUser.fifthKnowWord.Remove(knowedWordID);
+        UserDataList.SaveUserDataList(userDataList);
+    }
+
     public void RemoveWordToKnowedWordDictionarys(UserData activeUser, int knowedWordID)
     {
         if (activeUser.firstKnowWord.ContainsKey(knowedWordID))
@@ -173,8 +184,13 @@ public class UserDataOperations
         {
             activeUser.fifthKnowWord.Remove(knowedWordID);
         }
+        else if (activeUser.sixthKnowWord.ContainsKey(knowedWordID))
+        {
+            activeUser.sixthKnowWord.Remove(knowedWordID);
+        }
         UserDataList.SaveUserDataList(userDataList);
     }
+
 
     public int[] SelectRandomWord(WordDataList wordDataList, UserData activeUser, int randomWordCount)
     {
@@ -191,6 +207,7 @@ public class UserDataOperations
                 activeUser.thirdKnowWord.ContainsKey(randomWordID) ||
                 activeUser.fourthKnowWord.ContainsKey(randomWordID) ||
                 activeUser.fifthKnowWord.ContainsKey(randomWordID) ||
+                activeUser.sixthKnowWord.ContainsKey(randomWordID) || // 6. bilinen kelime kontrolü
                 selectedWordIDSet.Contains(randomWordID))
             {
                 continue;
@@ -203,6 +220,7 @@ public class UserDataOperations
 
         return selectedWordIDs;
     }
+
 
 
     public List<int> SelectAlreadyKnowedWordID(WordDataList wordDataList, UserData activeUser)
@@ -241,6 +259,13 @@ public class UserDataOperations
             if ((DateTime.Now - values).TotalDays > 180)
             {
                 knowedWordIDs.Add(FindKeyByValue(activeUser.fifthKnowWord, values));
+            }
+        }
+        foreach (DateTime values in activeUser.sixthKnowWord.Values)
+        {
+            if ((DateTime.Now - values).TotalDays > 365)
+            {
+                knowedWordIDs.Add(FindKeyByValue(activeUser.sixthKnowWord, values));
             }
         }
         return knowedWordIDs;
