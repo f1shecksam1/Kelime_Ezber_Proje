@@ -128,6 +128,7 @@ public class MainMenuPanelManager : MonoBehaviour
             int thirdKnowWordCount = GameManager.Instance.activeUser.thirdKnowWord.Count;
             int fourthKnowWordCount = GameManager.Instance.activeUser.fourthKnowWord.Count;
             int fifthKnowWordCount = GameManager.Instance.activeUser.fifthKnowWord.Count;
+            int sixthKnowWordCount = GameManager.Instance.activeUser.sixthKnowWord.Count;
 
             userAnalysisUserNameText.text = GameManager.Instance.activeUser.username;
             firsKnowedWordCountText.text = firstKnowWorldCount.ToString();
@@ -135,6 +136,7 @@ public class MainMenuPanelManager : MonoBehaviour
             thirdKnowedWordCountText.text = thirdKnowWordCount.ToString();
             fourthKnowedWordCountText.text = fourthKnowWordCount.ToString();
             fifthKnowedWordCountText.text = fifthKnowWordCount.ToString();
+            sixthKnowedWordCountText.text = sixthKnowWordCount.ToString();
             userAnalysisPanel.SetActive(true);
         }
     }
@@ -160,6 +162,7 @@ public class MainMenuPanelManager : MonoBehaviour
         int thirdKnowWordCount = GameManager.Instance.activeUser.thirdKnowWord.Count;
         int fourthKnowWordCount = GameManager.Instance.activeUser.fourthKnowWord.Count;
         int fifthKnowWordCount = GameManager.Instance.activeUser.fifthKnowWord.Count;
+        int sixthKnowWordCount = GameManager.Instance.activeUser.sixthKnowWord.Count;
 
         // Uygulama veri dizinini al
         string appDataPath = Application.persistentDataPath;
@@ -185,6 +188,7 @@ public class MainMenuPanelManager : MonoBehaviour
             document.Add(new Paragraph("Üç kere bilinen kelimeler sayýsý: " + thirdKnowWordCount));
             document.Add(new Paragraph("Dört kere bilinen kelimeler sayýsý: " + fourthKnowWordCount));
             document.Add(new Paragraph("Beþ kere bilinen kelimeler sayýsý: " + fifthKnowWordCount));
+            document.Add(new Paragraph("Altý kere bilinen kelimeler sayýsý: " + sixthKnowWordCount));
 
             document.Close();
             writer.Close();
@@ -192,7 +196,4 @@ public class MainMenuPanelManager : MonoBehaviour
 
         Debug.Log("PDF dosyasý oluþturuldu: " + pdfPath);
     }
-
-
 }
-

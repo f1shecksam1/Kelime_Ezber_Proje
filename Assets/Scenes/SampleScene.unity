@@ -13476,7 +13476,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   loginButton: {fileID: 2136363933}
-  previusPageButton: {fileID: 311426058}
+  previusPageButton: {fileID: 452568133}
   forgotPasswordButton: {fileID: 1682702264}
   userNameIF: {fileID: 1768055741}
   passwordIF: {fileID: 611256370}
