@@ -8757,7 +8757,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &775202715
 RectTransform:
   m_ObjectHideFlags: 0
@@ -15324,7 +15324,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &1443497851
 RectTransform:
   m_ObjectHideFlags: 0
@@ -20354,12 +20354,12 @@ MonoBehaviour:
     username: 
     password: 
     email: 
+  randomQuestionCount: 10
   activeUser:
     userID: 0
     username: 
     password: 
     email: 
-  randomQuestionCount: 10
   randomWordIDs: 
   alreadyKnowedWordIDsList: 
 --- !u!1 &1836318595

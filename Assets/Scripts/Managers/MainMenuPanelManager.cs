@@ -42,6 +42,9 @@ public class MainMenuPanelManager : MonoBehaviour
 
     private void Start()
     {
+        randomQuestionCountText.text = GameManager.Instance.randomQuestionCount.ToString();
+        settingsPanel.SetActive(false);
+        mainMenuPage.SetActive(false);
         playButton.onClick.AddListener(Play);
         exitGameButton.onClick.AddListener(ExitGame);
         logoutButton.onClick.AddListener(Logout);
@@ -89,8 +92,8 @@ public class MainMenuPanelManager : MonoBehaviour
     {
         if (!settingsPanel.activeSelf)
         {
-            randomQuestionCountText.text = GameManager.Instance.randomQuestionCount.ToString();
             settingsPanel.SetActive(true);
+            randomQuestionCountText.text = GameManager.Instance.randomQuestionCount.ToString();
         }
     }
 

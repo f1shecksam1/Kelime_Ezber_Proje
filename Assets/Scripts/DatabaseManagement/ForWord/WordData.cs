@@ -25,13 +25,13 @@ public class WordData
 
     public static string GetWordSoundPath(WordData wordData)
     {
-        string soundPath = Application.persistentDataPath + "/" + "WordDataSave" + "/" + "Sound" + "/" + Convert.ToString(wordData.wordSoundCount) + ".mp3";
+        string soundPath = Application.persistentDataPath + "/" + "WordDataSave" + "/" + "WordDataSounds" + "/" + Convert.ToString(wordData.wordSoundCount) + ".mp3";
         return soundPath;
     }
 
     public static string GetWordImagePath(WordData wordData)
     {
-        string imagePath = Application.persistentDataPath + "/" + "WordDataSave" + "/" + "Image" + "/" + Convert.ToString(wordData.wordImageCount) + ".png";
+        string imagePath = Application.persistentDataPath + "/" + "WordDataSave" + "/" + "WordDataImages" + "/" + Convert.ToString(wordData.wordImageCount) + ".png";
         return imagePath;
     }
 }

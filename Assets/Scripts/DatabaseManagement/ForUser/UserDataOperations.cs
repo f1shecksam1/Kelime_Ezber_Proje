@@ -179,36 +179,31 @@ public class UserDataOperations
     public int[] SelectRandomWord(WordDataList wordDataList, UserData activeUser, int randomWordCount)
     {
         int[] selectedWordIDs = new int[randomWordCount];
-        for (int i = 0; i < randomWordCount; i++)
+        HashSet<int> selectedWordIDSet = new HashSet<int>();
+        int count = 0;
+
+        while (count < randomWordCount)
         {
             int randomWordID = UnityEngine.Random.Range(0, wordDataList.wordDatas.Count);
-            if (activeUser.firstKnowWord.ContainsKey(randomWordID))
+
+            if (activeUser.firstKnowWord.ContainsKey(randomWordID) ||
+                activeUser.secondKnowWord.ContainsKey(randomWordID) ||
+                activeUser.thirdKnowWord.ContainsKey(randomWordID) ||
+                activeUser.fourthKnowWord.ContainsKey(randomWordID) ||
+                activeUser.fifthKnowWord.ContainsKey(randomWordID) ||
+                selectedWordIDSet.Contains(randomWordID))
             {
-                i--;
+                continue;
             }
-            else if (activeUser.secondKnowWord.ContainsKey(randomWordID))
-            {
-                i--;
-            }
-            else if (activeUser.thirdKnowWord.ContainsKey(randomWordID))
-            {
-                i--;
-            }
-            else if (activeUser.fourthKnowWord.ContainsKey(randomWordID))
-            {
-                i--;
-            }
-            else if (activeUser.fifthKnowWord.ContainsKey(randomWordID))
-            {
-                i--;
-            }
-            else
-            {
-                selectedWordIDs[i] = randomWordID;
-            }
+
+            selectedWordIDs[count] = randomWordID;
+            selectedWordIDSet.Add(randomWordID);
+            count++;
         }
+
         return selectedWordIDs;
     }
+
 
     public List<int> SelectAlreadyKnowedWordID(WordDataList wordDataList, UserData activeUser)
     {

@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using TMPro;
 using UnityEngine;
 using UnityEngine.Networking;
@@ -32,6 +33,7 @@ public class AskQuestionPageManager : MonoBehaviour
 
     int questionID;
     int questionCount;
+    int alreadyKnowedQuestionCount;
     string wordSoundPath;
 
     private List<int> previusWordIDList;
@@ -83,7 +85,7 @@ public class AskQuestionPageManager : MonoBehaviour
             }
             else if (GameManager.Instance.alreadyKnowedWordIDsList.Length > questionCount - GameManager.Instance.randomWordIDs.Length)
             {
-                questionID = GameManager.Instance.randomWordIDs[questionCount - GameManager.Instance.randomWordIDs.Length];
+                questionID = GameManager.Instance.alreadyKnowedWordIDsList[alreadyKnowedQuestionCount - 1];
                 previusWordIDList.Add(questionID);
                 if (wordEnglishIF.text == GameManager.Instance.wordDataOperations.GetWordDataList().wordDatas[questionID].wordEnglish)
                 {
@@ -130,6 +132,7 @@ public class AskQuestionPageManager : MonoBehaviour
 
     private void NextWord()
     {
+        Debug.Log(GameManager.Instance.alreadyKnowedWordIDsList);
         if (previusWordIDList.Count < questionCount)
         {
             questionID = GameManager.Instance.randomWordIDs[questionCount];
@@ -143,41 +146,81 @@ public class AskQuestionPageManager : MonoBehaviour
         }
         else if (previusWordIDList.Count - 1 == questionCount && wordExampleSentenceText.text != null)
         {
-            questionCount++;
-            questionID = GameManager.Instance.randomWordIDs[questionCount];
-            wordEnglishIF.text = null;
-            wordExampleSentenceText.text = null;
-            wordReferanceImage.sprite = null;
-            wordTurkishText.text = GameManager.Instance.wordDataOperations.GetWordDataList().wordDatas[questionID].wordTurkish;
-            isInputCorretText.text = null;
-            Debug.Log("sa2");
+            if (true)
+            {
+                questionCount++;
+                if (questionCount < GameManager.Instance.randomWordIDs.Count()) // Ensure questionCount is within bounds
+                {
+                    questionID = GameManager.Instance.randomWordIDs[questionCount];
+                    wordEnglishIF.text = null;
+                    wordExampleSentenceText.text = null;
+                    wordReferanceImage.sprite = null;
+                    wordTurkishText.text = GameManager.Instance.wordDataOperations.GetWordDataList().wordDatas[questionID].wordTurkish;
+                    isInputCorretText.text = null;
+                    Debug.Log("sa2");
+                }
+                else
+                {
+                    Debug.LogWarning("questionCount exceeded the number of available questions.");
+                    questionID = GameManager.Instance.alreadyKnowedWordIDsList[alreadyKnowedQuestionCount];
+                    wordEnglishIF.text = null;
+                    wordExampleSentenceText.text = null;
+                    wordReferanceImage.sprite = null;
+                    wordTurkishText.text = GameManager.Instance.wordDataOperations.GetWordDataList().wordDatas[questionID].wordTurkish;
+                    isInputCorretText.text = null;
+                    Debug.Log("sa2");
+                    alreadyKnowedQuestionCount++;
+                }
+            }
+            else
+            {
+                Debug.LogWarning("questionCount is already at the maximum.");
+            }
         }
+        audioSource.Stop();
     }
 
     private void PlaySound()
     {
         if (!string.IsNullOrEmpty(wordSoundPath))
         {
+            Debug.Log("Loading audio from path: " + wordSoundPath);
             StartCoroutine(LoadMusic(wordSoundPath));
+        }
+        else
+        {
+            Debug.LogError("Word sound path is null or empty.");
         }
     }
 
     private IEnumerator LoadMusic(string filePath)
     {
+        string fullPath = "file:///" + filePath;
+        Debug.Log("Full audio path: " + fullPath);
+
         using (UnityWebRequest www = UnityWebRequestMultimedia.GetAudioClip("file:///" + filePath, AudioType.MPEG))
         {
             yield return www.SendWebRequest();
 
             if (www.result == UnityWebRequest.Result.ConnectionError || www.result == UnityWebRequest.Result.ProtocolError)
             {
-                Debug.LogError("Error loading music: " + www.error);
+                Debug.LogError("Error loading music: " + www.error + ", path: " + fullPath);
             }
             else
             {
                 AudioClip clip = DownloadHandlerAudioClip.GetContent(www);
-                audioSource.clip = clip;
-                audioSource.Play();
+                if (clip != null)
+                {
+                    audioSource.clip = clip;
+                    audioSource.Play();
+                    Debug.Log("Audio loaded and playing.");
+                }
+                else
+                {
+                    Debug.LogError("Failed to load audio clip from path: " + fullPath);
+                }
             }
         }
     }
+
 }
