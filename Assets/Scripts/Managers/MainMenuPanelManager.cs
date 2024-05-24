@@ -42,6 +42,7 @@ public class MainMenuPanelManager : MonoBehaviour
 
     private void Start()
     {
+        Debug.Log(Application.persistentDataPath);
         randomQuestionCountText.text = GameManager.Instance.randomQuestionCount.ToString();
         settingsPanel.SetActive(false);
         mainMenuPage.SetActive(false);
@@ -128,6 +129,7 @@ public class MainMenuPanelManager : MonoBehaviour
             int fourthKnowWordCount = GameManager.Instance.activeUser.fourthKnowWord.Count;
             int fifthKnowWordCount = GameManager.Instance.activeUser.fifthKnowWord.Count;
 
+            userAnalysisUserNameText.text = GameManager.Instance.activeUser.username;
             firsKnowedWordCountText.text = firstKnowWorldCount.ToString();
             secondKnowedWordCountText.text = secondKnowWordCount.ToString();
             thirdKnowedWordCountText.text = thirdKnowWordCount.ToString();
@@ -147,7 +149,10 @@ public class MainMenuPanelManager : MonoBehaviour
 
     private void UserAnalysisCreateFile()
     {
-        Debug.Log("sa");
+        Debug.Log("PDF oluþturma baþlatýldý");
+
+        // Kullanýcý adý
+        string username = GameManager.Instance.activeUser.username;
 
         // Sayýmlarý al
         int firstKnowWorldCount = GameManager.Instance.activeUser.firstKnowWord.Count;
@@ -169,19 +174,25 @@ public class MainMenuPanelManager : MonoBehaviour
             PdfWriter writer = PdfWriter.GetInstance(document, fs);
             document.Open();
 
+            // Baþlýk ve kullanýcý adý ekle
+            document.Add(new Paragraph("Kullanýcý Kelime Analizi"));
+            document.Add(new Paragraph("Kullanýcý Adý: " + username));
+            document.Add(new Paragraph(" ")); // Boþluk ekle
+
             // Sayýmlarý PDF'ye yaz
             document.Add(new Paragraph("Bir kere bilinen kelimeler sayýsý: " + firstKnowWorldCount));
-            document.Add(new Paragraph("Iki kere bilinen kelimeler sayýsý: " + secondKnowWordCount));
-            document.Add(new Paragraph("Uc kere bilinen kelimeler sayýsý: " + thirdKnowWordCount));
-            document.Add(new Paragraph("Dort kere bilinen kelimeler sayýsý: " + fourthKnowWordCount));
-            document.Add(new Paragraph("Bes kere bilinen kelimeler sayýsý: " + fifthKnowWordCount));
+            document.Add(new Paragraph("Ýki kere bilinen kelimeler sayýsý: " + secondKnowWordCount));
+            document.Add(new Paragraph("Üç kere bilinen kelimeler sayýsý: " + thirdKnowWordCount));
+            document.Add(new Paragraph("Dört kere bilinen kelimeler sayýsý: " + fourthKnowWordCount));
+            document.Add(new Paragraph("Beþ kere bilinen kelimeler sayýsý: " + fifthKnowWordCount));
 
             document.Close();
             writer.Close();
         }
 
-        Console.WriteLine("PDF dosyasý oluþturuldu: " + pdfPath);
+        Debug.Log("PDF dosyasý oluþturuldu: " + pdfPath);
     }
+
 
 }
 
