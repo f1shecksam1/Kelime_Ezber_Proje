@@ -169,7 +169,7 @@ public class MainMenuPanelManager : MonoBehaviour
             // Sayýmlarý PDF'ye yaz
             document.Add(new Paragraph("Bir kere bilinen kelimeler sayýsý: " + firstKnowWorldCount));
             document.Add(new Paragraph("Iki kere bilinen kelimeler sayýsý: " + secondKnowWordCount));
-            document.Add(new Paragraph("UC kere bilinen kelimeler sayýsý: " + thirdKnowWordCount));
+            document.Add(new Paragraph("Uc kere bilinen kelimeler sayýsý: " + thirdKnowWordCount));
             document.Add(new Paragraph("Dort kere bilinen kelimeler sayýsý: " + fourthKnowWordCount));
             document.Add(new Paragraph("Bes kere bilinen kelimeler sayýsý: " + fifthKnowWordCount));
 
