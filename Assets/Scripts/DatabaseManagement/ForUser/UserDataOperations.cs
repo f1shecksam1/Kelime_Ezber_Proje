@@ -93,36 +93,60 @@ public class UserDataOperations
 
     }
 
-    public void AddWordToKnowedWordDictionaryFirst(UserData activeUser, int knowedWordID, DateTime knowTime)
+    public void AddWordToKnowedWordDictionary(UserData activeUser, int knowedWordID, DateTime nowTime)
     {
-        activeUser.firstKnowWord.Add(knowedWordID, knowTime);
+        if (activeUser.firstKnowWord.ContainsKey(knowedWordID))
+        {
+            AddWordToKnowedWordDictionarySecond(activeUser, knowedWordID, nowTime);
+        }
+        else if (activeUser.secondKnowWord.ContainsKey(knowedWordID))
+        {
+            AddWordToKnowedWordDictionaryThird(activeUser, knowedWordID, nowTime);
+        }
+        else if (activeUser.thirdKnowWord.ContainsKey(knowedWordID))
+        {
+            AddWordToKnowedWordDictionaryFourth(activeUser, knowedWordID, nowTime);
+        }
+        else if (activeUser.fourthKnowWord.ContainsKey(knowedWordID))
+        {
+            AddWordToKnowedWordDictionaryFifth(activeUser, knowedWordID, nowTime);
+        }
+        else
+        {
+            AddWordToKnowedWordDictionaryFirst(activeUser, knowedWordID, nowTime);
+        }
+    }
+
+    public void AddWordToKnowedWordDictionaryFirst(UserData activeUser, int knowedWordID, DateTime nowTime)
+    {
+        activeUser.firstKnowWord.Add(knowedWordID, nowTime);
         UserDataList.SaveUserDataList(userDataList);
     }
 
-    public void AddWordToKnowedWordDictionarySecond(UserData activeUser, int knowedWordID, DateTime knowTime)
+    public void AddWordToKnowedWordDictionarySecond(UserData activeUser, int knowedWordID, DateTime nowTime)
     {
-        activeUser.secondKnowWord.Add(knowedWordID, knowTime);
+        activeUser.secondKnowWord.Add(knowedWordID, nowTime);
         activeUser.firstKnowWord.Remove(knowedWordID);
         UserDataList.SaveUserDataList(userDataList);
     }
 
-    public void AddWordToKnowedWordDictionaryThird(UserData activeUser, int knowedWordID, DateTime knowTime)
+    public void AddWordToKnowedWordDictionaryThird(UserData activeUser, int knowedWordID, DateTime nowTime)
     {
-        activeUser.thirdKnowWord.Add(knowedWordID, knowTime);
+        activeUser.thirdKnowWord.Add(knowedWordID, nowTime);
         activeUser.secondKnowWord.Remove(knowedWordID);
         UserDataList.SaveUserDataList(userDataList);
     }
 
-    public void AddWordToKnowedWordDictionaryFourth(UserData activeUser, int knowedWordID, DateTime knowTime)
+    public void AddWordToKnowedWordDictionaryFourth(UserData activeUser, int knowedWordID, DateTime nowTime)
     {
-        activeUser.fourthKnowWord.Add(knowedWordID, knowTime);
+        activeUser.fourthKnowWord.Add(knowedWordID, nowTime);
         activeUser.thirdKnowWord.Remove(knowedWordID);
         UserDataList.SaveUserDataList(userDataList);
     }
 
-    public void AddWordToKnowedWordDictionaryFifth(UserData activeUser, int knowedWordID, DateTime knowTime)
+    public void AddWordToKnowedWordDictionaryFifth(UserData activeUser, int knowedWordID, DateTime nowTime)
     {
-        activeUser.fifthKnowWord.Add(knowedWordID, knowTime);
+        activeUser.fifthKnowWord.Add(knowedWordID, nowTime);
         activeUser.fourthKnowWord.Remove(knowedWordID);
         UserDataList.SaveUserDataList(userDataList);
     }
