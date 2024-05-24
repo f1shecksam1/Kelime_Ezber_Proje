@@ -5,6 +5,9 @@ using System.Linq;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
+using System.IO;
+using iTextSharp.text;
+using iTextSharp.text.pdf;
 
 public class MainMenuPanelManager : MonoBehaviour
 {
@@ -122,11 +125,11 @@ public class MainMenuPanelManager : MonoBehaviour
             int fourthKnowWordCount = GameManager.Instance.activeUser.fourthKnowWord.Count;
             int fifthKnowWordCount = GameManager.Instance.activeUser.fifthKnowWord.Count;
 
-            firsKnowedWordCountText.text = GameManager.Instance.activeUser.firstKnowWord.Count.ToString() + "/" + (totalWords - (secondKnowWordCount + thirdKnowWordCount + fourthKnowWordCount + fifthKnowWordCount)).ToString();
-            secondKnowedWordCountText.text = secondKnowWordCount.ToString() + "/" + (firstKnowWorldCount + thirdKnowWordCount + fourthKnowWordCount + fifthKnowWordCount).ToString();
-            thirdKnowedWordCountText.text = thirdKnowWordCount.ToString() + "/" + (firstKnowWorldCount + secondKnowWordCount + fourthKnowWordCount + fifthKnowWordCount).ToString();
-            fourthKnowedWordCountText.text = fourthKnowWordCount.ToString() + "/" + (firstKnowWorldCount + thirdKnowWordCount + secondKnowWordCount + fifthKnowWordCount).ToString();
-            fifthKnowedWordCountText.text = fifthKnowWordCount.ToString() + "/" + (firstKnowWorldCount + thirdKnowWordCount + fourthKnowWordCount + secondKnowWordCount).ToString();
+            firsKnowedWordCountText.text = firstKnowWorldCount.ToString();
+            secondKnowedWordCountText.text = secondKnowWordCount.ToString();
+            thirdKnowedWordCountText.text = thirdKnowWordCount.ToString();
+            fourthKnowedWordCountText.text = fourthKnowWordCount.ToString();
+            fifthKnowedWordCountText.text = fifthKnowWordCount.ToString();
             userAnalysisPanel.SetActive(true);
         }
     }
@@ -141,5 +144,41 @@ public class MainMenuPanelManager : MonoBehaviour
 
     private void UserAnalysisCreateFile()
     {
+        Debug.Log("sa");
+
+        // Sayýmlarý al
+        int firstKnowWorldCount = GameManager.Instance.activeUser.firstKnowWord.Count;
+        int secondKnowWordCount = GameManager.Instance.activeUser.secondKnowWord.Count;
+        int thirdKnowWordCount = GameManager.Instance.activeUser.thirdKnowWord.Count;
+        int fourthKnowWordCount = GameManager.Instance.activeUser.fourthKnowWord.Count;
+        int fifthKnowWordCount = GameManager.Instance.activeUser.fifthKnowWord.Count;
+
+        // Uygulama veri dizinini al
+        string appDataPath = Application.persistentDataPath;
+
+        // PDF dosyasýnýn yolu
+        string pdfPath = Path.Combine(appDataPath, "WordCounts.pdf");
+
+        // PDF dokümanýný oluþtur
+        using (FileStream fs = new FileStream(pdfPath, FileMode.Create, FileAccess.Write, FileShare.None))
+        {
+            Document document = new Document();
+            PdfWriter writer = PdfWriter.GetInstance(document, fs);
+            document.Open();
+
+            // Sayýmlarý PDF'ye yaz
+            document.Add(new Paragraph("Bir kere bilinen kelimeler sayýsý: " + firstKnowWorldCount));
+            document.Add(new Paragraph("Iki kere bilinen kelimeler sayýsý: " + secondKnowWordCount));
+            document.Add(new Paragraph("UC kere bilinen kelimeler sayýsý: " + thirdKnowWordCount));
+            document.Add(new Paragraph("Dort kere bilinen kelimeler sayýsý: " + fourthKnowWordCount));
+            document.Add(new Paragraph("Bes kere bilinen kelimeler sayýsý: " + fifthKnowWordCount));
+
+            document.Close();
+            writer.Close();
+        }
+
+        Console.WriteLine("PDF dosyasý oluþturuldu: " + pdfPath);
     }
+
 }
+
